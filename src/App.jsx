@@ -1,14 +1,48 @@
+import { useState } from 'react'
 import './App.css'
 import MemoItem from './components/MemoItem'
 
 function App() {
   const today = new Date().toLocaleDateString()
 
-  const memos = [
+  // state: 备忘录列表
+  const [memos, setMemos] = useState([
     { id: 1, title: '学习 React', content: '学完 Props 和列表渲染', done: true },
     { id: 2, title: '准备晚餐', content: '买菜、洗菜、做饭', done: false },
     { id: 3, title: '锻炼身体', content: '跑步 30 分钟', done: false },
-  ]
+  ])
+
+  // state: 输入框的值
+  const [inputTitle, setInputTitle] = useState('')
+  const [inputContent, setInputContent] = useState('')
+
+  // 添加备忘录
+  function handleAdd(e) {
+    e.preventDefault()
+    if (!inputTitle.trim() || !inputContent.trim()) return
+
+    const newMemo = {
+      id: Date.now(),
+      title: inputTitle,
+      content: inputContent,
+      done: false,
+    }
+    setMemos([...memos, newMemo])
+    setInputTitle('')
+    setInputContent('')
+  }
+
+  // 删除备忘录
+  function handleDelete(id) {
+    setMemos(memos.filter(m => m.id !== id))
+  }
+
+  // 切换完成状态
+  function handleToggle(id) {
+    setMemos(memos.map(m =>
+      m.id === id ? { ...m, done: !m.done } : m
+    ))
+  }
 
   return (
     <div>
@@ -19,6 +53,24 @@ function App() {
         {memos.filter(m => m.done).length} 条已完成
       </p>
 
+      {/* 添加表单 */}
+      <form className="add-form" onSubmit={handleAdd}>
+        <input
+          type="text"
+          placeholder="标题"
+          value={inputTitle}
+          onChange={e => setInputTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="内容"
+          value={inputContent}
+          onChange={e => setInputContent(e.target.value)}
+        />
+        <button type="submit">添加</button>
+      </form>
+
+      {/* 列表 */}
       {memos.length === 0 ? (
         <p className="empty">暂无备忘录，添加一条吧</p>
       ) : (
@@ -28,6 +80,8 @@ function App() {
             title={memo.title}
             content={memo.content}
             done={memo.done}
+            onToggle={() => handleToggle(memo.id)}
+            onDelete={() => handleDelete(memo.id)}
           />
         ))
       )}
