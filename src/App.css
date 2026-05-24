@@ -1,1 +1,24 @@
-/* 样式后续逐步添加 */
+.memo-item {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.memo-item h2 {
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.memo-item p {
+  font-size: 14px;
+  color: #666;
+}
+
+.date {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
