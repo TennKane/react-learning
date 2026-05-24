@@ -1,8 +1,11 @@
-function MemoItem(props) {
+function MemoItem({ title, content, done }) {
   return (
-    <div className="memo-item">
-      <h2>{props.title}</h2>
-      <p>{props.content}</p>
+    <div className={`memo-item ${done ? 'done' : ''}`}>
+      <h2>
+        {title}
+        {done && <span className="badge">已完成</span>}
+      </h2>
+      <p>{content}</p>
     </div>
   )
 }
